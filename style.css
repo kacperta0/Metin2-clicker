@@ -18,4 +18,20 @@ html, body {
   padding: 10px;
   margin: 20px
 }
+#lvl {
+  color: #faca1a;
+  font-size: 19px;
+  margin: 10px;
+}
+#damage {
+  color: #faca1a;
+  font-size: 19px;
+  margin: 10px;
+}
+#dmg_given {
+  color: #faca1a;
+  font-size: 19px;
+  margin: 10px;
+  }
+
 
