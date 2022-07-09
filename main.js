@@ -16,6 +16,38 @@ const getMhp = document.getElementById("m_hp");
 const getAttackButton = document.getElementById("m_attack");
 let mNumber = 0;
 
+// Declaring class monster
+class Monster {
+  constructor(name, hp) {
+
+    this.name = name;
+    this.hp = hp;
+  };
+  renderMonster() {
+
+    getMname.innerHTML = this.name;
+    getMhp.innerHTML = this.hp;
+  };
+}
+// ---------------------------------------
+// Global scope after creating a class of monster for easy changes in another functions
+  let newMonster = new Monster("Monster name", 100);
+  
+
+class Player {
+  constructor(dmg) {
+
+    this.dmg = dmg;
+  }
+  levelUp() {
+
+    this.dmg = this.dmg + 3;
+  }
+}
+// ---------------------------------------
+// Global scope after creating a class of Player for easy changes in another functions
+let newPlayer = new Player(5);
+
 
 // 1. Array of monsters -----------------
 let monstersArray = [
@@ -29,43 +61,39 @@ let monstersArray = [
   },
 ];
 
-// Class monster with constans parameter's name and functionality
-class Monster {
-  constructor(name, hp) {
-
-    this.name = name;
-    this.hp = hp;
-  };
-  renderMonster() {
-
-    getMname.innerHTML = this.name;
-    getMhp.innerHTML = this.hp;
-  };
-}
-
-  // Global scope after creating a class of monster for easy changes in another functions
-  let newMonster = new Monster("Monster name", 100);
-
 const gameRender = () => {
 
-  // 2. Random monster by number
-  mNumber = Math.floor(Math.random() * monstersArray.length); 
+  // Random monster by number
+    mNumber = Math.floor(Math.random() * monstersArray.length); 
 
   // CREATING A NEW MONSTER
-  newMonster = new Monster(monstersArray[mNumber].mName, monstersArray[mNumber].mHp);
+    newMonster = new Monster(monstersArray[mNumber].mName, monstersArray[mNumber].mHp);
 
   // RENDERING A MONSTER
-  newMonster.renderMonster();
+    newMonster.renderMonster();
 
-  // Adding attack function to button
+  // CREATING A NEW PLAYER WITH DECLARED DMG
+    newPlayer = new Player(3);
+
+  // Adding attack function to the button
   getAttackButton.addEventListener("click", playerAttack);
 };
 
-// 4. Attack function, that changes monster Health Points
+// Attack function, that changes monster Health Points
 const playerAttack = () => {
 
-  newMonster.hp = newMonster.hp - 5;
+  newMonster.hp = newMonster.hp - newPlayer.dmg;
   console.log(newMonster.hp);
+
+  // If player killed a monster, than render a new monster
+  if (newMonster.hp <= 0) {
+    
+    alert('You killed ' + newMonster.name);
+
+    gameRender();
+
+    newPlayer.levelUp();
+  }
 }
 
 
