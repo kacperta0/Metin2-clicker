@@ -8,6 +8,8 @@
 
 4. Create class Monster, that includes functionality of attacking
 
+5. Create a gaining experience points system
+
 */
 
 // Declaring basic variables
@@ -23,24 +25,28 @@ let monstersArray = [
   {
     mName: "Wild dog",
     mHp: 100,
+    mExpAmount: 40
   },
   {
     mName: "Hungry wild dog",
     mHp: 120,
+    mExpAmount: 60
   },
 ];
 
-// Creating object Player with declared damage that can be raised
+// Creating object Player with declared damage that can be raised or decreased
 let mainPlayer = {
-  dmg: 3
+  dmg: 3,
+  exp: 0
 };
 
 // Declaring class monster that can renders a parameters to HTMl
 class Monster {
-  constructor(name, hp) {
+  constructor(name, hp, exp) {
 
     this.name = name;
     this.hp = hp;
+    this.exp = exp;
   };
   renderMonster() {
 
@@ -50,22 +56,28 @@ class Monster {
 }
 // ---------------------------------------
 // Global scope after creating a class of monster for easy changes in another functions
-  let newMonster = new Monster("Monster name", 100);
+  let newMonster = new Monster("Monster name", 100, 1);
   
 
 class Player {
-  constructor(dmg) {
+  constructor(dmg, exp) {
 
     this.dmg = dmg;
+    this.exp = exp;
   }
   levelUp() {
 
+    if (this.exp >= 100) {
     this.dmg = this.dmg + 3;
+    alert('Hurray, you leveled up!');
+    this.exp = 0;
+    }
+    else ("Not enough experience!");
   }
 }
 // ---------------------------------------
 // Global scope after creating a class of a Player for easy changes in another functions
-let newPlayer = new Player(mainPlayer.dmg);
+let newPlayer = new Player(mainPlayer.dmg, mainPlayer.exp);
 
 const gameRender = () => {
 
@@ -73,7 +85,7 @@ const gameRender = () => {
     mNumber = Math.floor(Math.random() * monstersArray.length); 
 
   // CREATING A NEW MONSTER
-    newMonster = new Monster(monstersArray[mNumber].mName, monstersArray[mNumber].mHp);
+    newMonster = new Monster(monstersArray[mNumber].mName, monstersArray[mNumber].mHp, monstersArray[mNumber].mExpAmount);
 
   // RENDERING A MONSTER
     newMonster.renderMonster();
@@ -93,10 +105,11 @@ const playerAttack = () => {
     
     alert('You killed ' + newMonster.name);
 
+    newPlayer.exp = newPlayer.exp + newMonster.exp;
     newPlayer.levelUp();
 
     gameRender();
-
+    console.log(newPlayer.exp);
 
   }
 }
