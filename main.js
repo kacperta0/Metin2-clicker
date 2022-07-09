@@ -6,7 +6,7 @@
 
 3. Create function that renders the game, monster name, health points
 
-4. Create class Monster, that includes functionality of attacking and taking dmg
+4. Create class Monster, that includes functionality of attacking
 
 */
 
@@ -15,8 +15,27 @@ const getMname = document.getElementById("m_name");
 const getMhp = document.getElementById("m_hp");
 const getAttackButton = document.getElementById("m_attack");
 let mNumber = 0;
+let readyToLvlUp = false;
 
-// Declaring class monster
+
+// 1. Array of monsters -----------------
+let monstersArray = [
+  {
+    mName: "Wild dog",
+    mHp: 100,
+  },
+  {
+    mName: "Hungry wild dog",
+    mHp: 120,
+  },
+];
+
+// Creating object Player with declared damage that can be raised
+let mainPlayer = {
+  dmg: 3
+};
+
+// Declaring class monster that can renders a parameters to HTMl
 class Monster {
   constructor(name, hp) {
 
@@ -45,21 +64,8 @@ class Player {
   }
 }
 // ---------------------------------------
-// Global scope after creating a class of Player for easy changes in another functions
-let newPlayer = new Player(5);
-
-
-// 1. Array of monsters -----------------
-let monstersArray = [
-  {
-    mName: "Wild dog",
-    mHp: 100,
-  },
-  {
-    mName: "Hungry wild dog",
-    mHp: 120,
-  },
-];
+// Global scope after creating a class of a Player for easy changes in another functions
+let newPlayer = new Player(mainPlayer.dmg);
 
 const gameRender = () => {
 
@@ -71,9 +77,6 @@ const gameRender = () => {
 
   // RENDERING A MONSTER
     newMonster.renderMonster();
-
-  // CREATING A NEW PLAYER WITH DECLARED DMG
-    newPlayer = new Player(3);
 
   // Adding attack function to the button
   getAttackButton.addEventListener("click", playerAttack);
@@ -90,9 +93,11 @@ const playerAttack = () => {
     
     alert('You killed ' + newMonster.name);
 
+    newPlayer.levelUp();
+
     gameRender();
 
-    newPlayer.levelUp();
+
   }
 }
 
